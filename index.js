@@ -12,6 +12,7 @@ function SwitchAccessory(log, config) {
   this.log = log;
   this.name = config['name'];
   this.pin = config['pin'];
+  this.state = rpio.HIGH; // default state is high
 
   this.service = new Service.Switch(this.name);
 
@@ -25,17 +26,25 @@ function SwitchAccessory(log, config) {
   rpio.init({
     mapping: 'gpio'
   });
-  rpio.open(this.pin, rpio.OUTPUT, rpio.HIGH);
+  rpio.open(this.pin, rpio.OUTPUT, this.state);
 
   this.service
     .getCharacteristic(Characteristic.On)
+    .on('get', this.getPowerState.bind(this))
     .on('set', this.setPowerState.bind(this));
+}
+
+SwitchAccessory.prototype.getPowerState = function(callback) {
+  var value = this.state == rpio.HIGH;
+  this.log("Switch at GPIO %d is %s", this.pin, value);
+  callback(null, value);
 }
 
 SwitchAccessory.prototype.setPowerState = function(value, callback) {
   this.log("Setting switch at GPIO %d to %s", this.pin, value);
-  rpio.write(this.pin, (value ? rpio.LOW : rpio.HIGH));
-  callback();
+  this.state = value ? rpio.HIGH : rpio.LOW;
+  rpio.write(this.pin, this.state);
+  callback(null);
 }
 
 SwitchAccessory.prototype.getServices = function() {
