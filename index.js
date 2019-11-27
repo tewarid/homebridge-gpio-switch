@@ -12,7 +12,8 @@ function SwitchAccessory(log, config) {
   this.log = log;
   this.name = config['name'];
   this.pin = config['pin'];
-  this.state = rpio.HIGH; // default state is high
+  this.invert = config['invert'] || false;
+  this.state = this.invert ? rpio.LOW : rpio.HIGH; // default state is high
 
   this.service = new Service.Switch(this.name);
 
@@ -35,14 +36,14 @@ function SwitchAccessory(log, config) {
 }
 
 SwitchAccessory.prototype.getPowerState = function(callback) {
-  var value = this.state == rpio.HIGH;
+  var value = (this.state == rpio.HIGH) != this.invert;
   this.log("Switch at GPIO %d is %s", this.pin, value);
   callback(null, value);
 }
 
 SwitchAccessory.prototype.setPowerState = function(value, callback) {
   this.log("Setting switch at GPIO %d to %s", this.pin, value);
-  this.state = value ? rpio.HIGH : rpio.LOW;
+  this.state = value != this.invert ? rpio.HIGH : rpio.LOW;
   rpio.write(this.pin, this.state);
   callback(null);
 }
