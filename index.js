@@ -33,7 +33,7 @@ function SwitchAccessory(log, config) {
 }
 
 SwitchAccessory.prototype.setPowerState = function(value, callback) {
-  this.log("Setting switch to %s", value);
+  this.log("Setting switch at GPIO %d to %s", this.pin, value);
   rpio.write(this.pin, (value ? rpio.LOW : rpio.HIGH));
   callback();
 }
@@ -41,4 +41,3 @@ SwitchAccessory.prototype.setPowerState = function(value, callback) {
 SwitchAccessory.prototype.getServices = function() {
   return [this.infoService, this.service];
 }
-
