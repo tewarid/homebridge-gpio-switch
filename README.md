@@ -1,8 +1,10 @@
 # homebridge-gpio-switch
 
-Homebridge plugin to control relay switch via Raspberry Pi GPIO pins.
+Homebridge plugin to control relay switch via Raspberry Pi GPIO pins, for example
 
-To install from npm
+![Sample Sketch](sketch.svg)
+
+To install the plugin from npm
 
 ```bash
 npm install -g --unsafe-perms homebridge-gpio-switch
