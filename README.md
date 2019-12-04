@@ -1,6 +1,6 @@
 # homebridge-gpio-switch
 
-Homebridge plugin to control relay switch via Raspberry Pi GPIO pins, for example
+[Homebridge](https://github.com/nfarina/homebridge) plugin to control relay switch via Raspberry Pi GPIO pins, for example
 
 ![Sample Sketch](sketch.svg)
 
