@@ -13,7 +13,8 @@ function SwitchAccessory(log, config) {
   this.name = config['name'];
   this.pin = config['pin'];
   this.invert = config['invert'] || false;
-  this.state = this.invert ? rpio.LOW : rpio.HIGH; // default state is high
+  this.default = config['default'] === undefined ? true : config['default'];
+  this.state = this.default != this.invert ? rpio.HIGH : rpio.LOW;
 
   this.service = new Service.Switch(this.name);
 

@@ -11,7 +11,8 @@
       "accessory": "Switch",
       "name": "Bedside lamp",
       "pin": 18,
-      "invert": false
+      "invert": false,
+      "default": true
     }
   ]
 }
